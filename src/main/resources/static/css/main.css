@@ -1,0 +1,64 @@
+#LoginForm, #AddBookForm, #ProfileForm, #NewUserForm, #ChangeUserForm,
+#newCategoryForm, #NewSubsribeForm, #changeBookTab, #SearchForm {
+    width: 30%;
+}
+
+#Navigation, #btnUseAdvSearch, #btnUseSmpSearch, #btnUseLangSearch {
+    margin-bottom: 5%;
+}
+
+#AdminInfo a {
+    color: #ff0000;
+}
+
+.buttonAsLink {
+    background: none !important;
+    border: none;
+    cursor: pointer;
+    color: #000000;
+    font-size: 35px;
+}
+
+.inline-element {
+    float: left;
+    margin-right: 2%;
+    margin-top: 2%;
+    border-style: solid;
+    border-width: 1px;
+    width: 10%;
+    border-style: solid;
+}
+
+.show-inline {
+    display: inline;
+}
+
+#deleteCategoryTab {
+    margin-left: 45%;
+}
+
+#searcBySelect {
+    width: auto;
+}
+
+#AdvancedSearch div label {
+    width: auto;
+}
+
+#AdvancedSearch div input {
+    width: 60%;
+    float: right;
+}
+
+#AdvancedSearch div select {
+    width: auto;
+    float: right;
+}
+
+#AdvancedSearch div #queryLanguageBox {
+    width: 60%;
+}
+
+.float-right {
+    float: right;
+}

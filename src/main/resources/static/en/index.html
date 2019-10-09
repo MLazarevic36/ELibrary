@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>UES Library</title>
+    <script src="../js/libs/jquery-2.1.0.min.js"></script>
+    <script src="../js/libs/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/scripten.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+</head>
+<body>
+
+<nav id="Navigation" class="navbar bg-info">
+    <div class="container-fluid">
+        <ul id="NavLeft"class="nav navbar-nav navbar-left">
+            <li id="HomeBtn"><a href="">Home</a></li>
+            <li id="LoginBtn"><a href="">Login</a></li>
+            <li id="CategoriesBtn"><a href="">Categories</a></li>
+            <li id="AddBookBtn"><a href="">Add Book</a></li>
+            <li id="UsersBtn"><a href="">Users</a></li>
+            <li id="SubscribesBtn"><a href="">Subscribes</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li id="AdminInfo"><a>ADMINSTRATOR MODE</a></li>
+            <li id="ProfileBtn"><a href="">Profile</a></li>
+            <li id="LogoutBtn"><a href="">Logout</a></li>
+            <li id="switchToSR"><a href="">SR</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div id="SearchForm" class="container">
+    <button id="btnUseLangSearch" class="btn btn-success">Language search</button>
+    <button id="btnUseAdvSearch" class="btn btn-success">Advanced search</button>
+    <button id="btnUseSmpSearch"class="btn btn-success">Simple search</button>
+
+    <div id="LanguageSearch">
+        <label>Language</label>
+        <select class="form-control show-inline" id="languageSearchBox">
+        </select>
+        <p></p><button id="btnLanguageSearch" class="btn btn-primary float-right">Search</button>
+    </div>
+    <div id="SimpleSearch">
+        <p></p><label>Search by:</label>
+        <select class="form-control show-inline" id="searcBySelect">
+            <option value="title">Title</option>
+            <option value="author">Author</option>
+            <option value="keywords">Keywords</option>
+            <option value="text">Text</option>
+        </select><p></p>
+        <div class="form-group">
+            <input id="simpleSearchBox" type="text" class="form-control">
+        </div>
+        <label class="radio-inline"><input type="radio" name="searchType" value="term" checked>Term</label>
+        <label class="radio-inline"><input type="radio" name="searchType" value="phrase">Phrase</label>
+        <label class="radio-inline"><input type="radio" name="searchType" value="fuzzy">Fuzzy</label>
+        <p></p><button id="btnSimpleSearch" class="btn btn-primary float-right">Search</button>
+    </div>
+    <div id="AdvancedSearch">
+        <div class="form-group">
+            <label>Title</label>
+            <select class="form-control show-inline" id="titleOperator">
+                <option value="AND">And</option>
+                <option value="OR">Or</option>
+            </select>
+            <input type="text" id="titleSearchInput" class="form-control show-inline">
+        </div>
+        <div class="form-group">
+            <label>Author</label>
+            <select class="form-control show-inline" id="authorOperator">
+                <option value="AND">And</option>
+                <option value="OR">Or</option>
+            </select>
+            <input type="text" id="authorSearchInput" class="form-control show-inline">
+        </div>
+        <div class="form-group">
+            <label>Keywords</label>
+            <select class="form-control show-inline" id="keywordsOperator">
+                <option value="AND">And</option>
+                <option value="OR">Or</option>
+            </select>
+            <input type="text" id="keywordsSearchInput" class="form-control show-inline">
+        </div>
+        <div class="form-group">
+            <label>Text</label>
+            <select class="form-control show-inline" id="textOperator">
+                <option value="AND">And</option>
+                <option value="OR">Or</option>
+            </select>
+            <input type="text" id="textSearchInput" class="form-control show-inline">
+        </div>
+        <div class="form-group">
+            <label>Language</label>
+            <select class="form-control show-inline" id="languageOperator">
+                <option value="AND">And</option>
+                <option value="OR">Or</option>
+            </select>
+            <select class="form-control show-inline" id="queryLanguageBox">
+            </select>
+        </div>
+        <label class="radio-inline"><input type="radio" name="advancedSearchType" value="term" checked>Term</label>
+        <label class="radio-inline"><input type="radio" name="advancedSearchType" value="phrase">Phrase</label>
+        <p></p><button id="btnAdvancedSearch"class="btn btn-primary float-right">Search</button>
+    </div>
+    <div id="BooksResult" class="container-fluid">
+    </div>
+</div>
+
+<div id="AddBookForm" class="container">
+    <form id="uploadBookForm">
+        <input id="selLang" type="hidden" name="languageId"/>
+        <input id="selCat" type="hidden" name="categoryId"/>
+        <input id="userId" type="hidden" name="userId"/>
+        <p><b>Book language</b></p>
+        <select class="form-control" id="languageBox">
+        </select><br/>
+        <p><b>Book category</b></p>
+        <select class="form-control" id="categoryBox">
+        </select><br/>
+        <p><i>Only PDF file is allowed to upload!</i></p>
+        <input id="bookFileInput" type="file" name="bookFile"/><br/>
+        <button id="btnSubmitBook" class="btn btn-sm btn-success">Submit</button>
+    </form><br/>
+    <div id="setMetadata">
+        <input id="BookId" type="hidden">
+        <div class="form-group">
+            <label>File name</label>
+            <input id="BookFilename" type="text" class="form-control" disabled>
+        </div>
+        <div class="form-group">
+            <label>Created date</label>
+            <input id="BookCreatedDate" type="text" class="form-control" disabled>
+        </div>
+        <div class="form-group">
+            <label>Title</label>
+            <input id="BookTitle" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Author</label>
+            <input id="BookAuthor" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Keywords</label>
+            <input id="BookKeywords" type="text" class="form-control">
+        </div>
+        <button id="btnConfirmMetaData" class="btn btn-warning btn-sm">Confirm</button>
+    </div><br/>
+    <h4><b>Result:</b></h4>
+    <pre>
+		    <span id="indexBookResult"></span>
+		</pre>
+</div>
+
+<div id="LoginForm" class="container">
+    <div class="form-group">
+        <label>Username</label>
+        <input id="LoginUsername" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input id="LoginPassword" type="password" class="form-control">
+    </div>
+    <button id="btnConfirmLogin" class="btn btn-primary">Login</button>
+</div>
+
+<div id="CategoriesTab" class="container-fluid">
+    <div id="newCategoryForm" class="container-fluid">
+        <div class="form-group">
+            <label>Name</label>
+            <input id="NewCategoryName" type="text" class="form-control">
+        </div>
+        <button id="btnNewCategoryConfirm" class="btn btn-warning">Confirm</button>
+    </div>
+    <div id="CategoriesList" class="container-fluid"></div>
+    <div id="deleteCategoryTab" class="container"></div>
+    <div id="changeBookTab" class="container">
+        <p></p><p><b><i>Change book info</i></b></p>
+        <input id="BookIdNew" type="hidden">
+        <div class="form-group">
+            <label>Title</label>
+            <input id="BookTitleNew" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Author</label>
+            <input id="BookAuthorNew" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Keywords</label>
+            <input id="BookKeywordsNew" type="text" class="form-control">
+        </div>
+        <button id="btnConfirmBookChange" class="btn btn-sm btn-warning">Confirm</button>
+    </div>
+    <div id="BooksToShow" class="container"></div>
+</div>
+
+<div id="UsersTab" class="container-fluid">
+    <div class="container-fluid">
+        <button id="btnNewUser" class="btn btn-success ">Add User</button>
+    </div>
+    <div id="NewUserForm" class="container-fluid">
+        <div class="form-group">
+            <label>Firstname</label>
+            <input id="UserFirstname" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Lastname</label>
+            <input id="UserLastname" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Username</label>
+            <input id="UserUsername" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input id="UserPassword" type="text" class="form-control">
+        </div>
+        <button id="btnConfirmAddUser" class="btn btn-warning">Confirm</button>
+    </div>
+    <div id="ChangeUserForm" class="container-fluid">
+        <input id="ChangeUserId" type="hidden" disabled>
+        <div class="form-group">
+            <label>Username</label>
+            <input id="ChangeUserUsername" type="text" class="form-control" disabled>
+        </div>
+        <div class="form-group">
+            <label>Firstname</label>
+            <input id="ChangeUserFirstname" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Lastname</label>
+            <input id="ChangeUserLastname" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input id="ChangeUserPassword" type="password" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Repeat Password</label>
+            <input id="ChangeUserPasswordRep" type="password" class="form-control">
+        </div>
+        <button id="btnConfirmChangeUser" class="btn btn-warning">Confirm</button>
+        <button id="btnDeleteUser" class="btn btn-danger float-right">Delete user</button>
+    </div>
+    <div id="UsersList" class="container-fluid"></div>
+</div>
+
+<div id="SubscribeTab" class="container-fluid">
+    <div id="NewSubsribeForm" class="container-fluid">
+        <div class="form-group">
+            <label>Username</label>
+            <input id="SubUserUsername" type="text" class="form-control">
+        </div>
+        <label>Category</label>
+        <select class="form-control" id="subCategoryBox">
+        </select><br/>
+        <button id="btnSubmitSubscribe" class="btn btn-success">Submit</button>
+    </div>
+</div>
+
+<div id="ProfileForm" class="container-fluid">
+    <input id="ProfileId" type="hidden" disabled>
+    <input id="ProfileRole" type="hidden" disabled>
+    <div class="form-group">
+        <label>Username</label>
+        <input id="ProfileUsername" type="text" class="form-control" disabled>
+    </div>
+    <div class="form-group">
+        <label>Firstname</label>
+        <input id="ProfileFirstname" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Lastname</label>
+        <input id="ProfileLastname" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>New password</label>
+        <input id="ProfilePassword" type="password" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>Repeat new password</label>
+        <input id="ProfilePasswordRepeat" type="password" class="form-control">
+    </div>
+    <button id="btnConfirmChange" class="btn btn-warning">Change</button>
+</div>
+
+</body>
+</html>

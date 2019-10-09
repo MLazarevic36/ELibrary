@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="utf-8">
+    <title>UES Biblioteka</title>
+    <script src="../js/libs/jquery-2.1.0.min.js"></script>
+    <script src="../js/libs/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/scriptrs.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+</head>
+<body>
+    <nav id="Navigation" class="navbar bg-info">
+        <div class="container-fluid">
+            <ul id="NavLeft" class="nav navbar-left">
+                <li id="HomeBtn"><a href="">Pretraga</a></li>
+                <li id="LoginBtn"><a href="">Prijavi se</a></li>
+                <li id="CategoriesBtn"><a href="">Kategorije</a></li>
+                <li id="AddBookBtn"><a href="">Dodaj knjigu</a></li>
+                <li id="UsersBtn"><a href="">Korisnici</a></li>
+                <li id="SubscribesBtn"><a href="">Pretplata</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li id="AdminInfo"><a>ADMINSTRATORSKI MOD</a></li>
+                <li id="ProfileBtn"><a href="">Profil</a></li>
+                <li id="LogoutBtn"><a href="">Izloguj se</a></li>
+                <li id="switchToEN"><a href="">EN</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div id="SearchForm" class="container">
+        <button id="btnUseLangSearch" class="btn btn-success">Jezička pretraga</button>
+        <button id="btnUseAdvSearch" class="btn btn-success">Napredna pretraga</button>
+        <button id="btnUseSmpSearch"class="btn btn-success">Jednostavna pretraga</button>
+
+        <div id="LanguageSearch">
+            <label>Jezik</label>
+            <select class="form-control show-inline" id="languageSearchBox">
+            </select>
+            <p></p><button id="btnLanguageSearch" class="btn btn-primary float-right">Pronađi</button>
+        </div>
+        <div id="SimpleSearch">
+            <p></p><label>Pretraži po:</label>
+            <select class="form-control show-inline" id="searcBySelect">
+                <option value="title">Naslovu</option>
+                <option value="author">Autoru</option>
+                <option value="keywords">Ključnim rečima</option>
+                <option value="text">Sadržaju</option>
+            </select><p></p>
+            <div class="form-group">
+                <input id="simpleSearchBox" type="text" class="form-control">
+            </div>
+            <label class="radio-inline"><input type="radio" name="searchType" value="term" checked>Termin</label>
+            <label class="radio-inline"><input type="radio" name="searchType" value="phrase">Fraza</label>
+            <label class="radio-inline"><input type="radio" name="searchType" value="fuzzy">Fuzzy pretraga</label>
+            <p></p><button id="btnSimpleSearch" class="btn btn-primary float-right">Pronađi</button>
+        </div>
+        <div id="AdvancedSearch">
+            <div class="form-group">
+                <label>Naslov</label>
+                <select class="form-control show-inline" id="titleOperator">
+                    <option value="AND">I</option>
+                    <option value="OR">ILI</option>
+                </select>
+                <input type="text" id="titleSearchInput" class="form-control show-inline">
+            </div>
+            <div class="form-group">
+                <label>Autor</label>
+                <select class="form-control show-inline" id="authorOperator">
+                    <option value="AND">I</option>
+                    <option value="OR">ILI</option>
+                </select>
+                <input type="text" id="authorSearchInput" class="form-control show-inline">
+            </div>
+            <div class="form-group">
+                <label>Ključne reči</label>
+                <select class="form-control show-inline" id="keywordsOperator">
+                    <option value="AND">I</option>
+                    <option value="OR">ILI</option>
+                </select>
+                <input type="text" id="keywordsSearchInput" class="form-control show-inline">
+            </div>
+            <div class="form-group">
+                <label>Sadržaj</label>
+                <select class="form-control show-inline" id="textOperator">
+                    <option value="AND">I</option>
+                    <option value="OR">ILI</option>
+                </select>
+                <input type="text" id="textSearchInput" class="form-control show-inline">
+            </div>
+            <div class="form-group">
+                <label>Jezik</label>
+                <select class="form-control show-inline" id="languageOperator">
+                    <option value="AND">I</option>
+                    <option value="OR">ILI</option>
+                </select>
+                <select class="form-control show-inline" id="queryLanguageBox">
+                </select>
+            </div>
+            <label class="radio-inline"><input type="radio" name="advancedSearchType" value="term" checked>Termin</label>
+            <label class="radio-inline"><input type="radio" name="advancedSearchType" value="phrase">Fraza</label>
+            <p></p><button id="btnAdvancedSearch"class="btn btn-primary float-right">Pronađi</button>
+        </div>
+        <div id="BooksResult" class="container-fluid">
+        </div>
+    </div>
+
+    <div id="AddBookForm" class="container">
+        <form id="uploadBookForm">
+            <input id="selLang" type="hidden" name="languageId"/>
+            <input id="selCat" type="hidden" name="categoryId"/>
+            <input id="userId" type="hidden" name="userId"/>
+            <p><b>Jezik knjige</b></p>
+            <select class="form-control" id="languageBox">
+            </select><br/>
+            <p><b>Kategorija knjige</b></p>
+            <select class="form-control" id="categoryBox">
+            </select><br/>
+            <p><i>Samo knjige sa ekstenzijom "PDF" se mogu dodati!</i></p>
+            <input id="bookFileInput" type="file" name="bookFile"/><br/>
+            <button id="btnSubmitBook" class="btn btn-sm btn-success">Potvrdi</button>
+        </form><br/>
+        <div id="setMetadata">
+            <input id="BookId" type="hidden">
+            <div class="form-group">
+                <label>Ime fajla</label>
+                <input id="BookFilename" type="text" class="form-control" disabled>
+            </div>
+            <div class="form-group">
+                <label>Datum nastanka</label>
+                <input id="BookCreatedDate" type="text" class="form-control" disabled>
+            </div>
+            <div class="form-group">
+                <label>Naslov</label>
+                <input id="BookTitle" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Autor</label>
+                <input id="BookAuthor" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Ključne reči</label>
+                <input id="BookKeywords" type="text" class="form-control">
+            </div>
+            <button id="btnConfirmMetaData" class="btn btn-warning btn-sm">Potvrdi</button>
+        </div><br/>
+        <h4><b>Rezultat:</b></h4>
+        <pre>
+		    <span id="indexBookResult"></span>
+		</pre>
+    </div>
+
+    <div id="LoginForm" class="container">
+        <div class="form-group">
+            <label>Korisničko ime</label>
+            <input id="LoginUsername" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Lozinka</label>
+            <input id="LoginPassword" type="password" class="form-control">
+        </div>
+        <button id="btnConfirmLogin" class="btn btn-primary">Potvrdi</button>
+    </div>
+
+    <div id="CategoriesTab" class="container-fluid">
+        <div id="newCategoryForm" class="container-fluid">
+            <div class="form-group">
+                <label>Naziv</label>
+                <input id="NewCategoryName" type="text" class="form-control">
+            </div>
+            <button id="btnNewCategoryConfirm" class="btn btn-warning">Potvrdi</button>
+        </div>
+        <div id="CategoriesList" class="container-fluid"></div>
+        <div id="deleteCategoryTab" class="container"></div>
+        <div id="changeBookTab" class="container">
+            <p></p><p><b><i>Promena informacija knjige</i></b></p>
+            <input id="BookIdNew" type="hidden">
+            <div class="form-group">
+                <label>Naslov</label>
+                <input id="BookTitleNew" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Autor</label>
+                <input id="BookAuthorNew" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Ključne reči</label>
+                <input id="BookKeywordsNew" type="text" class="form-control">
+            </div>
+            <button id="btnConfirmBookChange" class="btn btn-sm btn-warning">Potvrdi</button>
+        </div>
+        <div id="BooksToShow" class="container"></div>
+    </div>
+
+    <div id="UsersTab" class="container-fluid">
+        <div class="container-fluid">
+            <button id="btnNewUser" class="btn btn-success ">Dodaj korisnika</button>
+        </div>
+        <div id="NewUserForm" class="container-fluid">
+            <div class="form-group">
+                <label>Ime</label>
+                <input id="UserFirstname" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Prezime</label>
+                <input id="UserLastname" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Korisničko ime</label>
+                <input id="UserUsername" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Lozinka</label>
+                <input id="UserPassword" type="text" class="form-control">
+            </div>
+            <button id="btnConfirmAddUser" class="btn btn-warning">Potvrdi</button>
+        </div>
+        <div id="ChangeUserForm" class="container-fluid">
+            <input id="ChangeUserId" type="hidden" disabled>
+            <div class="form-group">
+                <label>Korisničko ime</label>
+                <input id="ChangeUserUsername" type="text" class="form-control" disabled>
+            </div>
+            <div class="form-group">
+                <label>Ime</label>
+                <input id="ChangeUserFirstname" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Prezime</label>
+                <input id="ChangeUserLastname" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Lozinka</label>
+                <input id="ChangeUserPassword" type="password" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Ponovi lozinku</label>
+                <input id="ChangeUserPasswordRep" type="password" class="form-control">
+            </div>
+            <button id="btnConfirmChangeUser" class="btn btn-warning">Potvrdi</button>
+            <button id="btnDeleteUser" class="btn btn-danger float-right">Izbriši korisnika</button>
+        </div>
+        <div id="UsersList" class="container-fluid"></div>
+    </div>
+
+    <div id="SubscribeTab" class="container-fluid">
+        <div id="NewSubsribeForm" class="container-fluid">
+            <div class="form-group">
+                <label>Korisničko ime</label>
+                <input id="SubUserUsername" type="text" class="form-control">
+            </div>
+            <label>Kategorija</label>
+            <select class="form-control" id="subCategoryBox">
+            </select><br/>
+            <button id="btnSubmitSubscribe" class="btn btn-success">Potvrdi</button>
+        </div>
+    </div>
+
+    <div id="ProfileForm" class="container-fluid">
+        <input id="ProfileId" type="hidden" disabled>
+        <input id="ProfileRole" type="hidden" disabled>
+        <div class="form-group">
+            <label>Korisničko ime</label>
+            <input id="ProfileUsername" type="text" class="form-control" disabled>
+        </div>
+        <div class="form-group">
+            <label>Ime</label>
+            <input id="ProfileFirstname" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Prezime</label>
+            <input id="ProfileLastname" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Nova lozinka</label>
+            <input id="ProfilePassword" type="password" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Ponovi novu lozinku</label>
+            <input id="ProfilePasswordRepeat" type="password" class="form-control">
+        </div>
+        <button id="btnConfirmChange" class="btn btn-warning">Promeni</button>
+    </div>
+
+</body>
+</html>
